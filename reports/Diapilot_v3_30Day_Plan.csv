@@ -1,0 +1,91 @@
+Day,Meal,Recipe,Calories,Carbs_g,Sugar_g,Protein_g,AI_Score
+Day 1,Breakfast,perfect fish   chips,542.6,46.8,0.5,52.0,4.7765
+Day 1,Lunch,hamburger and kidney beans,587.4,46.8,1.0,53.5,5.0979
+Day 1,Dinner,hot roast beef sandwiches   gravy,666.6,44.0,2.5,81.0,5.0954
+Day 2,Breakfast,linda s new england fried clams,674.5,41.2,0.5,69.5,4.5595
+Day 2,Lunch,chicken fettuccine with ricotta   basil,671.0,44.0,2.5,56.5,5.0088
+Day 2,Dinner,pork chop  onion  and rice casserole,646.9,46.8,0.5,48.0,4.0986
+Day 3,Breakfast,pheasant nuggets deep fried and delicious,521.5,41.2,3.5,55.0,3.8357
+Day 3,Lunch,tuna spaghetti for one or two,546.0,44.0,3.5,59.0,4.85
+Day 3,Dinner,broccoli  cheese  rice casserole with chicken,651.9,44.0,4.0,48.5,3.1227
+Day 4,Breakfast,parmesan chicken strips,513.1,41.2,4.0,55.0,3.6515
+Day 4,Lunch,flounder with herbed couscous,579.9,46.8,0.5,51.0,4.7251
+Day 4,Dinner,di s thai chicken pasta,672.4,44.0,3.0,39.0,3.0965
+Day 5,Breakfast,last minute cheddar chicken and noodles,617.9,44.0,2.5,44.5,3.4357
+Day 5,Lunch,three can soup,655.3,41.2,3.0,58.0,4.4218
+Day 5,Dinner,beef with ginger,612.4,44.0,1.0,36.5,3.0744
+Day 6,Breakfast,turkey swedish meatballs,480.8,41.2,3.0,53.0,3.411
+Day 6,Lunch,broccoli rice and chicken,482.7,41.2,0.5,58.5,3.7733
+Day 6,Dinner,baked chicken and rice delight,598.3,41.2,3.0,45.0,2.9512
+Day 7,Breakfast,supper on a breadstick,669.3,46.8,2.0,43.5,3.3685
+Day 7,Lunch,shrimp versailles,657.1,44.0,3.0,44.5,3.2485
+Day 7,Dinner,white rice   chicken casserole,641.5,46.8,3.5,41.5,2.9612
+Day 8,Breakfast,chorizo and black bean soup with eggs,639.9,44.0,3.5,39.5,2.9668
+Day 8,Lunch,chicken and tetrazzini,651.7,44.0,3.0,44.5,3.2339
+Day 8,Dinner,ham   rice bake,676.7,44.0,3.5,35.0,2.9313
+Day 9,Breakfast,chicken and lemon pepper sauce,667.7,41.2,1.5,37.5,2.9192
+Day 9,Lunch,chicken scaloppine with linguine alfredo,560.3,41.2,1.5,48.0,3.1202
+Day 9,Dinner,3 cheese chicken penne,618.2,44.0,3.0,40.5,2.9052
+Day 10,Breakfast,beef macaroni pizza,588.1,41.2,3.5,41.5,2.9246
+Day 10,Lunch,campbell s chicken tetrazzini,574.0,44.0,4.0,48.0,3.0898
+Day 10,Dinner,julie s crock pot korma,633.2,41.2,2.5,40.5,2.8869
+Day 11,Breakfast,spicy chicken dippers,621.2,41.2,1.5,38.5,2.8991
+Day 11,Lunch,cheddar chicken spaghetti,661.9,46.8,3.0,42.5,2.9836
+Day 11,Dinner,baked macaroni ala the joy of cooking,664.2,41.2,3.0,35.0,2.7732
+Day 12,Breakfast,grandma s old world german chicken soup   dumplings,655.4,46.8,3.5,39.5,2.8954
+Day 12,Lunch,chicken and tortilla dumplings,599.1,41.2,2.5,38.0,2.9237
+Day 12,Dinner,guilty chicken shnitzels,556.4,46.8,2.5,37.5,2.6975
+Day 13,Breakfast,grandma s chicken n dumplings,662.2,44.0,2.0,34.5,2.8127
+Day 13,Lunch,40 cloves of garlic and chicken,661.1,41.2,1.0,41.5,2.8865
+Day 13,Dinner,curried chicken with chutney and couscous,597.1,41.2,0.5,37.0,2.6944
+Day 14,Breakfast,rolled chicken n dumplins,609.3,44.0,1.0,34.0,2.7955
+Day 14,Lunch,pork burritos,613.2,46.8,3.0,42.5,2.8958
+Day 14,Dinner,buffalo chicken and rice casserole,591.8,41.2,3.0,35.5,2.6852
+Day 15,Breakfast,ziti and sausage,645.7,46.8,3.5,35.0,2.7261
+Day 15,Lunch,chicken and dumplings  with potato dumplings,649.9,41.2,3.5,38.0,2.8798
+Day 15,Dinner,turkey rice bake,589.0,44.0,3.5,34.0,2.5997
+Day 16,Breakfast,chicken and cheese filled squash ravioli,574.6,41.2,3.0,40.0,2.7023
+Day 16,Lunch,buttery shrimp and pasta,622.5,44.0,3.5,36.5,2.8763
+Day 16,Dinner,lamb shank and barley soup,638.8,46.8,4.5,53.5,2.5381
+Day 17,Breakfast,beefy green bean and walnut stir fry,564.9,46.8,2.5,35.0,2.5853
+Day 17,Lunch,spicy chicken bow tie pasta in cream sauce,688.5,41.2,2.5,39.0,2.8542
+Day 17,Dinner,savory crock pot steak,567.0,41.2,3.0,45.5,2.5457
+Day 18,Breakfast,deep fried fish in batter  iceland,436.6,44.0,2.5,43.5,2.5641
+Day 18,Lunch,stir fried cellophane noodles,610.1,46.8,3.5,38.5,2.8597
+Day 18,Dinner,mark bittman s crunchy curried fish,390.6,44.0,0.5,37.5,2.2635
+Day 19,Breakfast,cheesy mashed white beans with kale  parmesan  and a fried egg,580.1,46.8,2.0,34.0,2.3684
+Day 19,Lunch,cheesy crock pot chicken with rice,562.1,44.0,2.0,38.0,2.8349
+Day 19,Dinner,cheesy tuna casserole,610.4,41.2,4.0,42.0,2.1387
+Day 20,Breakfast,canned tuna donburi,571.4,49.5,2.5,57.0,2.0773
+Day 20,Lunch,dajaj bil couscous,655.3,44.0,2.0,37.5,2.8274
+Day 20,Dinner,cheesy chicken and rice casserole,460.7,44.0,1.0,36.5,2.1194
+Day 21,Breakfast,whole wheat pasta salad with chicken,478.7,44.0,3.5,40.0,2.0216
+Day 21,Lunch,chicken for the gods,514.9,41.2,1.0,49.5,2.7973
+Day 21,Dinner,mom s easy enchilada casserole,643.7,44.0,4.0,35.0,2.1272
+Day 22,Breakfast,ranch pretzel chicken  rsc,626.9,41.2,4.0,38.5,1.8552
+Day 22,Lunch,gatorbek s cuban pork  black beans  and yellow rice,577.4,41.2,1.0,46.5,2.7976
+Day 22,Dinner,spicy pork noodles,500.8,44.0,2.5,36.5,2.0057
+Day 23,Breakfast,oven fried chicken and french fries,384.3,44.0,3.0,36.5,1.7604
+Day 23,Lunch,creole seafood supreme,628.5,46.8,3.5,36.0,2.6608
+Day 23,Dinner,pan roasted salmon with ginger and curry,458.5,41.2,1.0,42.0,1.9884
+Day 24,Breakfast,peppery chicken fried chicken,646.9,55.0,0.5,57.0,1.6422
+Day 24,Lunch,asian chicken noodles with vegetables,493.1,44.0,3.5,47.5,2.5736
+Day 24,Dinner,cozy chicken parmesan casserole,457.0,41.2,3.5,43.0,1.8943
+Day 25,Breakfast,lancaster chicken soup,392.3,41.2,3.5,37.0,1.6639
+Day 25,Lunch,shrimp and asparagus fettuccine,558.5,46.8,2.5,40.0,2.5332
+Day 25,Dinner,simply oven baked pork chops or chicken and rice ii,572.3,41.2,4.0,37.5,1.8948
+Day 26,Breakfast,sake steamed sea bass,452.8,41.2,3.5,36.5,1.6459
+Day 26,Lunch,chicken and bow tie pasta,654.8,41.2,2.5,36.0,2.4968
+Day 26,Dinner,rachael ray s spinach artichoke burgers,611.2,46.8,5.0,53.0,1.8776
+Day 27,Breakfast,chicken noodle goulash  abs diet,368.6,41.2,3.5,35.0,1.5565
+Day 27,Lunch,tuna and white bean wraps,519.1,41.2,3.0,49.0,2.4418
+Day 27,Dinner,jackie s easy au gratin chicken bake,457.5,41.2,2.5,39.5,1.7927
+Day 28,Breakfast,wisconsin beer batter for fish,478.0,44.0,0.0,43.5,1.4589
+Day 28,Lunch,chicken and wild rice slow cooker dinner,589.1,44.0,5.0,60.5,2.4053
+Day 28,Dinner,turkey tetrazzini florentine casserole,520.6,46.8,2.0,34.0,1.78
+Day 29,Breakfast,quinoa crusted chicken fingers,651.1,52.2,0.5,62.5,1.4735
+Day 29,Lunch,chicken and rosemary cream rigatoni,575.3,41.2,3.0,36.0,2.4309
+Day 29,Dinner,amish chicken casserole,576.6,46.8,4.0,35.0,1.7721
+Day 30,Breakfast,thai tuna noodles,438.9,41.2,2.5,34.5,1.3843
+Day 30,Lunch,chicken rice skillet,535.7,41.2,3.0,46.5,2.4117
+Day 30,Dinner,shredded french dip sandwiches,580.2,41.2,5.5,59.5,1.7126

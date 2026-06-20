@@ -1,0 +1,27 @@
+# ── Python environment ────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# ── Jupyter ────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Raw / heavy data (download separately, see readme.md) ──
+data/raw/*.csv
+data/raw/*.zip
+
+# ── Generated processed data (regenerate via data_pipeline.py) ─
+data/processed/
+
+# ── Generated reports / outputs (regenerate via scripts) ───
+reports/
+
+# ── OS / editor junk ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ── Env secrets (NEVER commit API keys) ─────────────────────
+.env
+*.env

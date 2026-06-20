@@ -1,0 +1,91 @@
+Day,Meal,Recipe,Calories,Carbs_g,Sugar_g,Protein_g,RF_Score
+Day 1,Breakfast,wisconsin beer batter for fish,478.0,44.0,0.0,43.5,0.6969
+Day 1,Lunch,broccoli rice and chicken,482.7,41.2,0.5,58.5,0.7077
+Day 1,Dinner,mark bittman s crunchy curried fish,390.6,44.0,0.5,37.5,0.6774
+Day 2,Breakfast,crispy fish sticks,448.0,52.2,7.0,37.0,0.6255
+Day 2,Lunch,couscous with chicken,469.4,46.8,8.0,45.5,0.6257
+Day 2,Dinner,hot roast beef sandwiches   gravy,666.6,44.0,2.5,81.0,0.6513
+Day 3,Breakfast,parmesan chicken strips,513.1,41.2,4.0,55.0,0.6701
+Day 3,Lunch,himalayan red rice,234.0,46.8,0.0,4.0,0.6151
+Day 3,Dinner,seafood paella with artichokes,452.9,38.5,7.5,45.0,0.6291
+Day 4,Breakfast,linda s new england fried clams,674.5,41.2,0.5,69.5,0.6636
+Day 4,Lunch,pesto artichoke chicken over rice,381.3,52.2,3.0,31.0,0.6484
+Day 4,Dinner,loretta lynn s crispy fried chicken,667.5,49.5,0.5,39.5,0.6565
+Day 5,Breakfast,captain d s batter dipped fish,430.8,35.8,0.0,51.5,0.6947
+Day 5,Lunch,stove top tuna shells and cheese,626.4,52.2,2.5,45.5,0.6585
+Day 5,Dinner,cactus chicken fried steak,575.9,33.0,0.0,60.5,0.6555
+Day 6,Breakfast,supper on a breadstick,669.3,46.8,2.0,43.5,0.6607
+Day 6,Lunch,good eats quick  homemade cottage cheese,442.2,49.5,0.0,38.5,0.6838
+Day 6,Dinner,savory crock pot steak,567.0,41.2,3.0,45.5,0.6662
+Day 7,Breakfast,deep fried fish in batter  iceland,436.6,44.0,2.5,43.5,0.6809
+Day 7,Lunch,chinese buffet black pepper chicken,434.9,35.8,4.5,52.0,0.6553
+Day 7,Dinner,crunchy curry chicken,410.3,30.2,0.0,56.5,0.6671
+Day 8,Breakfast,phoney abalone,565.1,52.2,0.5,40.5,0.6715
+Day 8,Lunch,tilapia piccata for two,665.7,35.8,2.5,51.0,0.6562
+Day 8,Dinner,the ultimate chili,470.2,52.2,4.0,35.5,0.6537
+Day 9,Breakfast,quinoa crusted chicken fingers,651.1,52.2,0.5,62.5,0.6654
+Day 9,Lunch,borracho chicken  crock pot,350.9,35.8,0.5,37.0,0.6568
+Day 9,Dinner,southwest cheesy chicken and rice casserole,518.9,52.2,1.0,39.5,0.6678
+Day 10,Breakfast,jaylin s gnocchi with marinara and italian sausage  5fix,245.4,41.2,0.0,8.0,0.6
+Day 10,Lunch,boston battered fried fish,483.4,49.5,0.5,52.5,0.7022
+Day 10,Dinner,lime garlic beef and pepper stir fry,417.7,41.2,4.0,42.0,0.6621
+Day 11,Breakfast,canned tuna donburi,571.4,49.5,2.5,57.0,0.6691
+Day 11,Lunch,beer battered fish  for fish n chips,435.5,38.5,0.0,46.0,0.6986
+Day 11,Dinner,simply slow cooker pot roast,662.7,38.5,7.5,79.5,0.6073
+Day 12,Breakfast,perfect fish   chips,542.6,46.8,0.5,52.0,0.6897
+Day 12,Lunch,asian chicken noodles with vegetables,493.1,44.0,3.5,47.5,0.6728
+Day 12,Dinner,cherry pork chops,509.5,35.8,0.0,41.5,0.6688
+Day 13,Breakfast,arthur treacher s fish,382.8,41.2,0.0,37.5,0.6802
+Day 13,Lunch,something different chicken,575.7,44.0,0.0,43.0,0.6731
+Day 13,Dinner,pepperoni rigatoni bake,653.5,52.2,7.0,38.5,0.6107
+Day 14,Breakfast,luby s cafeteria italian chicken breast,527.9,35.8,1.5,48.5,0.6665
+Day 14,Lunch,salmon and couscous,591.2,33.0,0.5,72.0,0.6527
+Day 14,Dinner,southwest turkey burgers,442.4,30.2,2.5,49.0,0.6463
+Day 15,Breakfast,real fried chicken nuggets,424.3,49.5,0.5,30.0,0.6655
+Day 15,Lunch,aussie beer batter fish,450.0,44.0,0.0,47.5,0.7016
+Day 15,Dinner,nana s arroz con pollo  yellow rice   chicken,654.2,49.5,4.0,36.5,0.6395
+Day 16,Breakfast,chicken explosion,537.7,52.2,5.0,48.0,0.6494
+Day 16,Lunch,cornmeal crusted tilapia with black beans and salsa,404.3,41.2,2.0,38.0,0.6737
+Day 16,Dinner,easy roasted red kidney beans with a kick  vegan,409.5,52.2,1.0,28.0,0.6526
+Day 17,Breakfast,crispy fish tacos,345.4,27.5,4.0,37.5,0.6077
+Day 17,Lunch,cornish hens with rice pilaf,680.4,41.2,5.5,75.0,0.6199
+Day 17,Dinner,comfort casserole,607.8,38.5,6.0,52.0,0.6272
+Day 18,Breakfast,spirals with chicken artichoke wine sauce,478.4,52.2,0.0,41.5,0.6832
+Day 18,Lunch,hamburger and kidney beans,587.4,46.8,1.0,53.5,0.6854
+Day 18,Dinner,chicken   barley casserole,589.9,27.5,3.5,72.5,0.612
+Day 19,Breakfast,beer battered fish with tartar sauce,578.6,35.8,8.0,46.0,0.6078
+Day 19,Lunch,even easier chicken broccoli  or spinach alfredo,644.8,38.5,0.5,54.0,0.6669
+Day 19,Dinner,ww chicken pepper steak with hash browns,335.2,35.8,0.0,32.0,0.6477
+Day 20,Breakfast,country fried meatloaf sandwich,668.6,30.2,0.5,56.5,0.6401
+Day 20,Lunch,golden chicken nuggets,468.4,33.0,0.0,55.0,0.6775
+Day 20,Dinner,fontina topped chicken cutlets with couscous,637.0,55.0,2.0,51.5,0.644
+Day 21,Breakfast,crispy tilapia,507.3,30.2,3.0,74.5,0.6275
+Day 21,Lunch,sea bass with lemon caper fettuccine,526.3,35.8,2.0,39.5,0.6586
+Day 21,Dinner,pan roasted salmon with ginger and curry,458.5,41.2,1.0,42.0,0.6697
+Day 22,Breakfast,shrimp au gratin quiche  rsc,645.7,38.5,4.0,38.5,0.6376
+Day 22,Lunch,cheesy crock pot chicken with rice,562.1,44.0,2.0,38.0,0.6676
+Day 22,Dinner,healthy citrus baked salmon,599.8,35.8,1.5,67.5,0.6602
+Day 23,Breakfast,low fat fish and chips,417.7,38.5,4.0,38.0,0.6586
+Day 23,Lunch,spicy pasta and shrimp,475.6,49.5,2.5,40.5,0.6729
+Day 23,Dinner,chicken broccoli and stuffing casserole,570.9,52.2,3.0,39.5,0.6564
+Day 24,Breakfast,zone diet   perfect pancakes,424.3,52.2,4.5,35.0,0.6472
+Day 24,Lunch,chicken bacon ranch noodles,581.7,52.2,5.5,50.0,0.6382
+Day 24,Dinner,baked chicken and garlic orzo,470.2,52.2,8.0,37.0,0.6155
+Day 25,Breakfast,tomato basil chicken breasts,395.1,33.0,2.0,43.5,0.6496
+Day 25,Lunch,chicken for the gods,514.9,41.2,1.0,49.5,0.6878
+Day 25,Dinner,spicy pork noodles,500.8,44.0,2.5,36.5,0.66
+Day 26,Breakfast,imperial fondue,491.8,55.0,3.0,47.5,0.6512
+Day 26,Lunch,chicken fettuccine with ricotta   basil,671.0,44.0,2.5,56.5,0.6624
+Day 26,Dinner,luby s cafeteria chicken fried steak,409.6,33.0,0.5,40.5,0.6562
+Day 27,Breakfast,sherry chicken breasts w  shrooms and capers,509.5,38.5,3.0,48.5,0.6766
+Day 27,Lunch,spice rubbed pork with quinoa,554.0,35.8,0.5,60.5,0.6729
+Day 27,Dinner,turkey  white bean  spinach stew,562.6,49.5,5.5,45.5,0.6381
+Day 28,Breakfast,deep fried mozzarella cheese sticks,686.0,52.2,8.0,38.0,0.6032
+Day 28,Lunch,semolina s chicken cordon bleu pasta,638.9,44.0,4.5,38.0,0.6381
+Day 28,Dinner,bacon double cheeseburger casserole,677.9,38.5,3.0,43.5,0.6466
+Day 29,Breakfast,grandma cindy s chicken tetrazzini,491.8,38.5,2.0,30.5,0.6484
+Day 29,Lunch,shrimp   chicken with rice,516.1,57.8,0.5,38.0,0.6485
+Day 29,Dinner,easy parmesan garlic chicken and pasta,364.3,41.2,2.0,35.5,0.6578
+Day 30,Breakfast,secret ingredient best juicy fried chicken,438.3,35.8,1.0,43.0,0.6747
+Day 30,Lunch,grilled pesto shrimp with pasta,360.9,41.2,5.0,31.0,0.6292
+Day 30,Dinner,curried chicken with chutney and couscous,597.1,41.2,0.5,37.0,0.6444
