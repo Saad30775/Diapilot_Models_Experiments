@@ -1,6 +1,7 @@
 # ── Python environment ────────────────────────────────────
 .venv/
 venv/
+.venv312/
 __pycache__/
 *.pyc
 
@@ -16,6 +17,9 @@ data/processed/
 
 # ── Generated reports / outputs (regenerate via scripts) ───
 reports/
+
+# ── One-off local diagnostic scripts (not part of the project) ─
+models/inspect_pkls.py
 
 # ── OS / editor junk ─────────────────────────────────────────
 .DS_Store
