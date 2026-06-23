@@ -21,6 +21,10 @@ reports/
 # ── One-off local diagnostic scripts (not part of the project) ─
 models/inspect_pkls.py
 
+# ── Manual API test files (throwaway, not part of the project) ──
+test_request*.json
+response*.json
+
 # ── OS / editor junk ─────────────────────────────────────────
 .DS_Store
 Thumbs.db
