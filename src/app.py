@@ -26,10 +26,70 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import requests
 from flask import Flask, request, jsonify
 from tensorflow import keras
 
 app = Flask(__name__)
+
+# ────────────────────────────────────────────────────────────
+# Gemini setup — converts recipe names to Pakistani equivalents
+# before the plan is sent to the app.
+#
+# IMPORTANT: this calls Gemini's REST API directly with `requests`
+# instead of the `google-generativeai` SDK. The SDK depends on a
+# protobuf version that conflicts with the protobuf version
+# TensorFlow needs in this environment (confirmed: SDK wants
+# protobuf <6.0, TensorFlow needs protobuf >=6.31.1 — no single
+# version satisfies both). Calling the REST endpoint directly
+# avoids this conflict entirely, since `requests` has no protobuf
+# dependency at all.
+#
+# This is a SEPARATE Gemini key/config from the chatbot's Gemini
+# integration (that one lives in the React Native/JS side and is
+# unrelated to this).
+#
+# If GEMINI_API_KEY is not set, the API still works correctly and
+# returns the plan with original (English) recipe names — Pakistani
+# conversion is a best-effort enhancement, never a hard requirement
+# for the endpoint to function.
+# ────────────────────────────────────────────────────────────
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_ENABLED = bool(GEMINI_API_KEY)
+
+# ────────────────────────────────────────────────────────────
+# Model fallback chain — tried in order, top to bottom.
+#
+# Why this exists: during testing we found individual Gemini
+# models can independently fail even when the API key and
+# billing are both fine — e.g. a model being deprecated
+# (gemini-2.0-flash, shut down June 2026), a model being
+# temporarily overloaded (gemini-flash-latest -> 503 "high
+# demand"), or a specific model having zero free-tier quota on
+# a given project while another model on the SAME key works
+# fine. Trying several models in sequence makes the conversion
+# step resilient to any ONE of these failing, without needing
+# manual intervention each time.
+#
+# Ordered cheapest/lightest first (cheaper models tend to have
+# more free-tier headroom), falling back to heavier models only
+# if the lighter ones are unavailable.
+# ────────────────────────────────────────────────────────────
+GEMINI_MODEL_FALLBACK_CHAIN = [
+    "gemini-2.5-flash-lite",
+    "gemini-2.0-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-flash-latest",
+]
+
+GEMINI_REST_URL_TEMPLATE = (
+    "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+)
+
+if not GEMINI_ENABLED:
+    print("WARNING: GEMINI_API_KEY environment variable not set.")
+    print("Diet plans will be returned with original (English) recipe"
+          " names. Set GEMINI_API_KEY to enable Pakistani conversion.")
 
 # ────────────────────────────────────────────────────────────
 # Load model + scaler ONCE at startup (not per request — slow otherwise)
@@ -221,6 +281,128 @@ def pick_best_meals_for_slot(meal_type, patient_vector_8, macros, n_needed):
 
 
 # ────────────────────────────────────────────────────────────
+# Gemini step — Pakistani food conversion
+#
+# Takes the full English-named 30-day plan and asks Gemini to
+# rewrite recipe names (and a short ingredient hint) as their
+# closest common Pakistani equivalent, while leaving every
+# numeric/clinical field (calories, carbs, sugar, protein, fat,
+# scores, exercise text) completely untouched.
+#
+# Batched as ONE request for the whole 90-meal plan (not one
+# request per meal) to keep this fast and to keep Gemini API
+# usage low. If anything goes wrong — network issue, malformed
+# response, missing key — the ORIGINAL plan is returned
+# unchanged rather than failing the whole request.
+# ────────────────────────────────────────────────────────────
+def convert_plan_to_pakistani(plan):
+    if not GEMINI_ENABLED:
+        return plan
+
+    # Build a simple numbered list of just the recipe names,
+    # so the prompt stays small and the mapping back is unambiguous.
+    flat_meals = []
+    for day_entry in plan:
+        for meal in day_entry["meals"]:
+            flat_meals.append(meal["recipe_name"])
+
+    numbered_list = "\n".join(
+        f"{i+1}. {name}" for i, name in enumerate(flat_meals)
+    )
+
+    prompt = (
+        "You are helping localize a diabetic meal plan for a Pakistani "
+        "user. Below is a numbered list of dish names from a Western "
+        "recipe dataset. For each one, reply with the closest common "
+        "Pakistani dish name that a Pakistani household would "
+        "recognize and could realistically cook as a substitute — do "
+        "NOT change the nutritional meaning, just give the localized "
+        "name. Reply with ONLY a numbered list in the exact same order, "
+        "one Pakistani dish name per line, no extra commentary.\n\n"
+        f"{numbered_list}"
+    )
+
+    # Try each model in the fallback chain, in order, until one
+    # succeeds with a correctly-shaped response. This makes the
+    # conversion step resilient to any single model being deprecated,
+    # overloaded, or out of quota — without needing to know in
+    # advance which model will actually work today.
+    for model_name in GEMINI_MODEL_FALLBACK_CHAIN:
+        url = GEMINI_REST_URL_TEMPLATE.format(model=model_name)
+
+        try:
+            response = requests.post(
+                url,
+                params={"key": GEMINI_API_KEY},
+                json={
+                    "contents": [
+                        {"parts": [{"text": prompt}]}
+                    ]
+                },
+                timeout=30,
+            )
+
+            if response.status_code != 200:
+                print(f"INFO: Gemini model '{model_name}' returned "
+                      f"status {response.status_code}, trying next "
+                      f"model in fallback chain.")
+                continue
+
+            result = response.json()
+
+            # Gemini REST response shape:
+            # { "candidates": [ { "content": { "parts": [ {"text": "..."} ] } } ] }
+            raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
+
+            lines = [
+                line.strip() for line in raw_text.strip().split("\n")
+                if line.strip()
+            ]
+
+            # Parse "1. Dish Name" -> "Dish Name", keep order strict
+            converted_names = []
+            for line in lines:
+                if ". " in line:
+                    converted_names.append(line.split(". ", 1)[1].strip())
+                else:
+                    converted_names.append(line.strip())
+
+            # Safety check: only apply if Gemini returned exactly as
+            # many names as we sent. If the count doesn't match,
+            # something went wrong with parsing for THIS model —
+            # try the next one in the chain rather than giving up.
+            if len(converted_names) != len(flat_meals):
+                print(f"INFO: Gemini model '{model_name}' returned "
+                      f"{len(converted_names)} names, expected "
+                      f"{len(flat_meals)}. Trying next model in "
+                      f"fallback chain.")
+                continue
+
+            # Success — apply the converted names back onto the plan,
+            # same order, then stop trying further models.
+            idx = 0
+            for day_entry in plan:
+                for meal in day_entry["meals"]:
+                    meal["recipe_name"] = converted_names[idx]
+                    idx += 1
+
+            print(f"INFO: Pakistani conversion succeeded using model "
+                  f"'{model_name}'.")
+            return plan
+
+        except Exception as e:
+            print(f"INFO: Gemini model '{model_name}' failed ({e}), "
+                  f"trying next model in fallback chain.")
+            continue
+
+    # Every model in the chain failed — return the original
+    # (English) plan rather than failing the whole request.
+    print("WARNING: All models in the Gemini fallback chain failed. "
+          "Returning original (English) recipe names.")
+    return plan
+
+
+# ────────────────────────────────────────────────────────────
 # Main endpoint
 # ────────────────────────────────────────────────────────────
 @app.route("/generate-plan", methods=["POST"])
@@ -292,6 +474,11 @@ def generate_plan():
             })
         day_entry["daily_evening_workout"] = get_daily_evening_workout(day)
         plan.append(day_entry)
+
+    # ── Gemini step: convert recipe names to Pakistani equivalents ──
+    # Safe no-op if GEMINI_API_KEY isn't set or the call fails —
+    # see convert_plan_to_pakistani() for the fallback behavior.
+    plan = convert_plan_to_pakistani(plan)
 
     return jsonify({
         "patient_summary": {
