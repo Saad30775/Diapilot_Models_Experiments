@@ -33,3 +33,5 @@ Thumbs.db
 # ── Env secrets (NEVER commit API keys) ─────────────────────
 .env
 *.env
+
+test_gemini_direct.py
