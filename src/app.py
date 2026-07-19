@@ -29,6 +29,14 @@ import pandas as pd
 import requests
 from flask import Flask, request, jsonify
 from tensorflow import keras
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file in this same folder
+# (src/.env), the same way the React Native project's .env works.
+# This means GEMINI_API_KEY no longer needs to be set manually with
+# $env:GEMINI_API_KEY every time a new terminal is opened — it's read
+# automatically from .env on every run.
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -299,26 +307,66 @@ def convert_plan_to_pakistani(plan):
     if not GEMINI_ENABLED:
         return plan
 
-    # Build a simple numbered list of just the recipe names,
-    # so the prompt stays small and the mapping back is unambiguous.
+    # Build a numbered list that includes each meal's TYPE alongside its
+    # name (e.g. "1. [Breakfast] beer batter halibut") — without this,
+    # the model has no way to know a dish is meant for breakfast vs.
+    # dinner, and will happily suggest dinner-style dishes (fried fish,
+    # heavy curries) for a breakfast slot. Including meal type lets the
+    # model pick genuinely meal-appropriate Pakistani equivalents.
     flat_meals = []
     for day_entry in plan:
         for meal in day_entry["meals"]:
-            flat_meals.append(meal["recipe_name"])
+            flat_meals.append((meal["meal_type"], meal["recipe_name"]))
 
     numbered_list = "\n".join(
-        f"{i+1}. {name}" for i, name in enumerate(flat_meals)
+        f"{i+1}. [{meal_type}] {name}"
+        for i, (meal_type, name) in enumerate(flat_meals)
     )
 
     prompt = (
         "You are helping localize a diabetic meal plan for a Pakistani "
-        "user. Below is a numbered list of dish names from a Western "
-        "recipe dataset. For each one, reply with the closest common "
-        "Pakistani dish name that a Pakistani household would "
-        "recognize and could realistically cook as a substitute — do "
-        "NOT change the nutritional meaning, just give the localized "
-        "name. Reply with ONLY a numbered list in the exact same order, "
-        "one Pakistani dish name per line, no extra commentary.\n\n"
+        "household. Below is a numbered list of dish names from a "
+        "Western recipe dataset, each tagged with its meal slot "
+        "(Breakfast, Lunch, or Dinner).\n\n"
+        "For each one, reply with a SIMPLE, EVERYDAY Pakistani dish "
+        "name that an ordinary Pakistani household actually eats and "
+        "cooks regularly — not a fancy, invented, or overly literal "
+        "translation. Avoid names that sound like translated diet "
+        "products (e.g. do not say things like 'sugar-free diet "
+        "jelly' — instead pick a real dish, like a specific daal or "
+        "sabzi, that naturally fits the calorie/carb range).\n\n"
+        "Meal-appropriateness matters:\n"
+        "- Breakfast items should be genuine Pakistani breakfast foods "
+        "(e.g. anda paratha, plain omelette, daliya, low-fat lassi, "
+        "besan cheela) — NOT heavy dinner dishes like fried fish or "
+        "karahi, even if the original Western dish was a 'breakfast' "
+        "entry in the dataset.\n"
+        "- Lunch and Dinner items should be common Pakistani main "
+        "dishes (e.g. daal, sabzi, grilled or roasted chicken/fish, "
+        "karahi, khichdi) that fit the same general calorie/protein "
+        "range as the original.\n\n"
+        "IMPORTANT — fully commit to the substitution, do not blend "
+        "English words onto a Pakistani dish name, and never keep "
+        "non-Pakistani ingredients in the name even if the original "
+        "recipe used them. If the original dish contains an ingredient "
+        "uncommon in Pakistani cooking (e.g. quinoa, broccoli, kale), "
+        "replace it entirely with a common Pakistani ingredient that "
+        "fits a similar role (e.g. quinoa -> replace with roti/rice as "
+        "part of a normal Pakistani dish; broccoli -> replace with "
+        "aloo, palak, bhindi, or gobi).\n\n"
+        "Examples of what NOT to do, and the correct alternative:\n"
+        "- WRONG: 'Grilled Chicken with Quinoa Salad' (keeps a non-"
+        "Pakistani ingredient) -> RIGHT: 'Grilled Chicken with Roti'\n"
+        "- WRONG: 'Steamed Prawns with Herbs' (Western-style phrasing) "
+        "-> RIGHT: 'Jhinga Masala' or 'Prawn Curry'\n"
+        "- WRONG: 'Creamy Fish Handi' (English adjective bolted onto a "
+        "Pakistani noun) -> RIGHT: 'Fish Handi' or 'Malai Fish Curry'\n\n"
+        "Do NOT change the nutritional meaning — only replace the name "
+        "with a realistic, commonly recognized Pakistani equivalent "
+        "that fits both the meal slot and the approximate nutrition "
+        "profile. Reply with ONLY a numbered list in the exact same "
+        "order, one Pakistani dish name per line, no extra "
+        "commentary, no meal-type tags in your reply.\n\n"
         f"{numbered_list}"
     )
 
