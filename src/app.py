@@ -17,9 +17,17 @@ Then call:
         "gender": "male",
         "activity": "sedentary",
         "leicester_score": 16,
-        "on_medication": false,
+        "medication_risk_level": "none",
         "current_glucose_high": false
     }
+
+    medication_risk_level must be one of:
+      "high" — insulin or other medications with genuine hypoglycemia
+               risk (e.g. sulfonylureas)
+      "low"  — medications like metformin with no meaningful
+               hypoglycemia risk on their own
+      "none" — not on any diabetes medication
+    (Any other/missing value defaults to "high", the safer assumption.)
 """
 
 import os
@@ -155,9 +163,21 @@ def calculate_tdee(age, weight_kg, height_cm, gender, activity="sedentary"):
     return round(bmr * multipliers.get(activity, 1.2))
 
 
-def get_dynamic_macros(tdee, leicester_score, on_medication=False,
+def get_dynamic_macros(tdee, leicester_score, medication_risk_level="none",
                         current_glucose_high=False):
-    """ADA 2025-aligned per-meal constraints (same as training notebook)."""
+    """
+    ADA 2025-aligned per-meal constraints (same as training notebook).
+
+    medication_risk_level: one of "high", "low", "none".
+      - "high": insulin or other medications with genuine hypoglycemia
+        risk (e.g. sulfonylureas) — applies the 25g carb safety floor.
+      - "low": medications like metformin that do not typically cause
+        hypoglycemia on their own — no carb floor applied.
+      - "none": not on any diabetes medication — no carb floor applied.
+      - If an unrecognized value is passed (e.g. "unsure"), defaults to
+        the SAFER "high" behavior — better to apply an unnecessary
+        floor than to miss a genuine hypoglycemia risk.
+    """
     if leicester_score <= 10:
         carb_pct, sugar_limit = 0.50, 15.0
     elif leicester_score <= 15:
@@ -169,9 +189,14 @@ def get_dynamic_macros(tdee, leicester_score, on_medication=False,
         carb_pct -= 0.10
         sugar_limit = 3.0
 
+    # Safe default: anything other than explicit "low" or "none" is
+    # treated as high-risk, so an unrecognized/missing value never
+    # silently skips the safety floor.
+    is_high_hypoglycemia_risk = medication_risk_level not in ("low", "none")
+
     per_meal_carbs_max = round(((tdee * carb_pct) / 4) / 3)
-    per_meal_carbs_min = 25 if on_medication else 0
-    if on_medication and per_meal_carbs_max < 25:
+    per_meal_carbs_min = 25 if is_high_hypoglycemia_risk else 0
+    if is_high_hypoglycemia_risk and per_meal_carbs_max < 25:
         per_meal_carbs_max = 25
 
     return {
@@ -470,14 +495,35 @@ def generate_plan():
         gender = data["gender"]
         activity = data.get("activity", "sedentary")
         leicester_score = float(data["leicester_score"])
-        on_medication = bool(data.get("on_medication", False))
+
+        # medication_risk_level: "high" (insulin/sulfonylureas — genuine
+        # hypoglycemia risk), "low" (e.g. metformin — no meaningful
+        # hypoglycemia risk on its own), or "none" (not on medication).
+        #
+        # Backward compatibility: if an older client still sends the
+        # original on_medication boolean instead, translate it safely
+        # (True -> "high", the safer assumption; False -> "none").
+        if "medication_risk_level" in data:
+            medication_risk_level = data["medication_risk_level"]
+        elif "on_medication" in data:
+            medication_risk_level = "high" if bool(data["on_medication"]) else "none"
+        else:
+            medication_risk_level = "high"  # safest default if omitted entirely
+
         current_glucose_high = bool(data.get("current_glucose_high", False))
     except (KeyError, ValueError) as e:
         return jsonify({"error": f"Missing or invalid field: {e}"}), 400
 
+    # Separate, binary signal for the DNN's trained "p_medication"
+    # feature — the model was trained on a simple on/off medication
+    # flag and was not retrained for risk-level granularity, so this
+    # stays binary: on if the patient takes ANY diabetes medication
+    # (whether high or low hypoglycemia risk), off if none.
+    is_on_any_medication = medication_risk_level in ("high", "low")
+
     # ── Clinical engine ──────────────────────────────────
     tdee = calculate_tdee(age, weight_kg, height_cm, gender, activity)
-    macros = get_dynamic_macros(tdee, leicester_score, on_medication, current_glucose_high)
+    macros = get_dynamic_macros(tdee, leicester_score, medication_risk_level, current_glucose_high)
     bmi = round(weight_kg / ((height_cm / 100) ** 2), 1)
 
     # Build the 8-value patient feature vector, in the EXACT order
@@ -485,7 +531,7 @@ def generate_plan():
     carb_target = (macros["per_meal_max_carbs"] + macros["per_meal_min_carbs"]) / 2
     patient_vector_8 = [
         age, bmi, leicester_score, tdee,
-        int(on_medication), carb_target,
+        int(is_on_any_medication), carb_target,
         macros["per_meal_sugar"], macros["per_meal_calories"],
     ]
 
@@ -532,7 +578,7 @@ def generate_plan():
         "patient_summary": {
             "age": age, "bmi": bmi, "tdee": tdee,
             "leicester_score": leicester_score,
-            "on_medication": on_medication,
+            "medication_risk_level": medication_risk_level,
             "per_meal_macros": macros,
         },
         "plan": plan,
